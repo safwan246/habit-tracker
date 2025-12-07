@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import cute from '../public/cute.jpg';
+import HabitCard from "./HabitCard";
 
 export default function MainBody() {
   return (
@@ -31,6 +32,10 @@ export default function MainBody() {
 
      
 
+      </div>
+      <div className="p-8">
+
+        <HabitCard/>
       </div>
     </div>
   );
