@@ -6,6 +6,7 @@ export type HabitFrequency = "daily" | "weekly" | "monthly";
 
 
 export interface IHabit {
+  id?: string;
   userId: Types.ObjectId | string;
   title: string;
   description?: string;
