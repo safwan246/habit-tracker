@@ -48,7 +48,6 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
@@ -62,9 +61,13 @@ export async function GET(req: NextRequest) {
       createdAt: -1,
     });
 
-    return NextResponse.json(habits, { status: 200 });
+    // 👇 wrap in an object so frontend can use data.habits
+    return NextResponse.json(
+      { habits },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("GET /api/habits error:", error);
+    console.error("GET /api/habit error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

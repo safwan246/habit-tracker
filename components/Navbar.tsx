@@ -1,10 +1,9 @@
-
 // "use client";
 
-// import { HabitCategory, HabitFrequency, IHabit } from "@/model/habit";
 // import React, { useState } from "react";
+// import { useRouter } from "next/navigation";
 // import { IoMdAdd, IoMdLogOut } from "react-icons/io";
-//   // adjust path
+// import { HabitCategory, HabitFrequency, IHabit } from "@/model/habit";
 
 // const categories: { value: HabitCategory; label: string }[] = [
 //   { value: "health", label: "Health" },
@@ -20,21 +19,23 @@
 // ];
 
 // interface NavbarProps {
-//   userId: string;
-//   onHabitCreated: (habit: IHabit) => void;
+//   userId: string; // ✅ only this now
 // }
 
-// export default function Navbar({ userId, onHabitCreated }: NavbarProps) {
+// export default function Navbar({ userId }: NavbarProps) {
 //   const [open, setOpen] = useState(false);
+//   const router = useRouter();
 
+//   // CREATE HABIT
 //   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 //     e.preventDefault();
 //     const form = e.currentTarget;
 
 //     const body = {
-//       userId, // 👈 from props
+//       userId,
 //       title: (form.elements.namedItem("title") as HTMLInputElement).value,
-//       description: (form.elements.namedItem("description") as HTMLTextAreaElement)?.value,
+//       description: (form.elements.namedItem("description") as HTMLTextAreaElement)
+//         ?.value,
 //       category: (form.elements.namedItem("category") as HTMLSelectElement).value,
 //       frequency: (form.elements.namedItem("frequency") as HTMLSelectElement).value,
 //       trigger: (form.elements.namedItem("trigger") as HTMLInputElement)?.value,
@@ -54,44 +55,63 @@
 //       const data = await res.json();
 //       const newHabit: IHabit = data.habit;
 
-//       onHabitCreated(newHabit); 
+//       // we are not using onHabitCreated anymore
+//       console.log("Habit created:", newHabit);
 
 //       form.reset();
 //       setOpen(false);
 //       alert("Habit created!");
-      
-    
-
 //     } catch (err) {
 //       console.log(err);
 //       alert("Error creating habit");
 //     }
 //   };
 
+//   // LOGOUT
+//   const handleLogout = async () => {
+//     try {
+//       const res = await fetch("/api/logout", {
+//         method: "POST",
+//       });
+
+//       if (!res.ok) {
+//         throw new Error("Logout failed");
+//       }
+
+//       router.push("/login"); // change if your login route is different
+//       router.refresh();      // optional
+//     } catch (err) {
+//       console.error(err);
+//       alert("Error logging out");
+//     }
+//   };
+
 //   return (
 //     <>
-//       {/* your same navbar JSX */}
-//       <nav className='sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-orange-100 flex justify-between items-center px-6 py-4 md:px-12'>
+//       <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-orange-100 flex justify-between items-center px-6 py-4 md:px-12">
 //         {/* Logo / title */}
-//         <div className='flex items-center gap-2'>
-//           <div className='h-8 w-8 bg-orange-500 rounded-lg flex items-center justify-center'>
-//             <span className='text-white font-bold text-lg'>H</span>
+//         <div className="flex items-center gap-2">
+//           <div className="h-8 w-8 bg-orange-500 rounded-lg flex items-center justify-center">
+//             <span className="text-white font-bold text-lg">H</span>
 //           </div>
-//           <h1 className='text-gray-800 font-extrabold text-xl tracking-tight'>
+//           <h1 className="text-gray-800 font-extrabold text-xl tracking-tight">
 //             Habit Tracker
 //           </h1>
 //         </div>
 
 //         {/* Right side buttons */}
-//         <div className='flex items-center gap-4'>
-//           <button className='flex items-center gap-2 text-gray-500 font-medium hover:text-orange-600 hover:bg-orange-50 px-4 py-2 rounded-full transition-all duration-200'>
+//         <div className="flex items-center gap-4">
+//           <button
+//             onClick={handleLogout}
+//             className="flex items-center gap-2 text-gray-500 font-medium hover:text-orange-600 hover:bg-orange-50 px-4 py-2 rounded-full transition-all duration-200"
+//           >
 //             <IoMdLogOut size={20} />
 //             <span className="hidden sm:inline">Logout</span>
 //           </button>
 
 //           <button
 //             onClick={() => setOpen(true)}
-//             className='group bg-orange-500 text-white px-6 py-2.5 rounded-full font-medium shadow-lg transform transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 flex items-center gap-2'
+//             className="group bg-orange-500 text-white px-6 py-2.5 rounded-full font-medium shadow-lg transform transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 flex items-center gap-2"
 //           >
 //             <IoMdAdd size={20} />
 //             <span>New Habit</span>
@@ -117,7 +137,6 @@
 //             </div>
 
 //             <form className="space-y-4" onSubmit={handleSubmit}>
-//               {/* all your fields: title, description, category, frequency, trigger */}
 //               {/* Title */}
 //               <div className="space-y-1">
 //                 <label className="text-sm font-medium text-neutral-800">
@@ -227,9 +246,6 @@
 //   );
 // }
 
-
-// components/Navbar.tsx
-// components/Navbar.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -251,14 +267,14 @@ const frequencies: { value: HabitFrequency; label: string }[] = [
 ];
 
 interface NavbarProps {
-  userId: string; // ✅ only this now
+  userId: string;
+  onHabitCreated?: (habit: IHabit) => void; // 👈 add this
 }
 
-export default function Navbar({ userId }: NavbarProps) {
+export default function Navbar({ userId, onHabitCreated }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  // CREATE HABIT
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -287,8 +303,10 @@ export default function Navbar({ userId }: NavbarProps) {
       const data = await res.json();
       const newHabit: IHabit = data.habit;
 
-      // we are not using onHabitCreated anymore
-      console.log("Habit created:", newHabit);
+      // 🔥 tell parent about new habit
+      if (onHabitCreated) {
+        onHabitCreated(newHabit);
+      }
 
       form.reset();
       setOpen(false);
@@ -299,7 +317,6 @@ export default function Navbar({ userId }: NavbarProps) {
     }
   };
 
-  // LOGOUT
   const handleLogout = async () => {
     try {
       const res = await fetch("/api/logout", {
@@ -310,8 +327,8 @@ export default function Navbar({ userId }: NavbarProps) {
         throw new Error("Logout failed");
       }
 
-      router.push("/login"); // change if your login route is different
-      router.refresh();      // optional
+      router.push("/login");
+      router.refresh();
     } catch (err) {
       console.error(err);
       alert("Error logging out");
@@ -477,3 +494,4 @@ export default function Navbar({ userId }: NavbarProps) {
     </>
   );
 }
+
