@@ -5,7 +5,7 @@ export function verifyToken(req: Request) {
   const cookieHeader = req.headers.get("cookie");
 
   if (!cookieHeader || !cookieHeader.includes("token=")) {
-    return null; // no token
+    return null; 
   }
 
   const token = cookieHeader
@@ -18,7 +18,7 @@ export function verifyToken(req: Request) {
       user_id: string;
     };
 
-    return decoded; // { user_id }
+    return decoded; 
   } catch {
     return null; 
   }

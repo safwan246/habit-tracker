@@ -33,19 +33,11 @@ export async function POST(req: NextRequest) {
       trigger,
     });
 
-    return NextResponse.json(
-      {
-        message: "Habit created",
-        habit,
-      },
-      { status: 201 }
-    );
+    return NextResponse.json({message: "Habit created",habit,},{ status: 201 });
+  
   } catch (error) {
     console.error("POST /api/habits error:", error);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Internal server error" },{ status: 500 });
   }
 }
 export async function GET(req: NextRequest) {
@@ -57,20 +49,12 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const habits = await Habit.find({ userId: decoded.user_id }).sort({
-      createdAt: -1,
-    });
+    const habits = await Habit.find({ userId: decoded.user_id }).sort({createdAt: -1,});
+    return NextResponse.json({ habits },{ status: 200 });
 
-    // 👇 wrap in an object so frontend can use data.habits
-    return NextResponse.json(
-      { habits },
-      { status: 200 }
-    );
   } catch (error) {
     console.error("GET /api/habit error:", error);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    
+    return NextResponse.json({ message: "Internal server error" },{ status: 500 });
   }
 }

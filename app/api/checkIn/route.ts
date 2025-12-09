@@ -1,11 +1,38 @@
-// app/api/checkin/route.ts
+
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/app/Lib/mongodb";
 import CheckIn, { CheckInStatus } from "@/model/checkIn";
 import { verifyToken } from "@/app/Lib/JWT/verifyToken";
 
-export async function POST(req: NextRequest) {
+
+export async function GET(req: NextRequest) {
   try {
+    await connectDB();
+
+    const decoded = verifyToken(req);
+    if (!decoded) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+  
+    const today = new Date().toISOString().slice(0, 10);
+
+    
+    const checkIns = await CheckIn.find({
+      userId: decoded.user_id,
+      date: today,
+    });
+
+    return NextResponse.json({ checkIns }, { status: 200 });
+  } catch (error) {
+    console.error("GET /api/checkin error:", error);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
+  }
+}
+
+
+export async function POST(req: NextRequest) {
+   try {
     await connectDB();
 
     const decoded = verifyToken(req);
@@ -22,7 +49,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const today = date ?? new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const today = date ?? new Date().toISOString().slice(0, 10); 
 
     const checkIn = await CheckIn.findOneAndUpdate(
       {

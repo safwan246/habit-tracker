@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 export default function SignupPage() {
+
   const [name,setName]=useState("");
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
@@ -31,7 +32,7 @@ export default function SignupPage() {
     setSuccess("Account created! Redirecting...");
     setTimeout(() => {
       window.location.href = "/login";
-    }, 1500);
+    }, 1000);
   };
 
   return (

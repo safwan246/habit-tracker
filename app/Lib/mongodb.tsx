@@ -9,7 +9,8 @@ if (!mongo_uri) {
 let cached = (global as any).mongoose || { conn: null, Promise: null };
 
 export async function connectDB() {
-  if (cached.conn) return cached.conn;
+  if (cached.conn) 
+    return cached.conn;
 
   if (!cached.Promise) {
     cached.Promise = mongoose.connect(mongo_uri).then((mongoose) => mongoose);

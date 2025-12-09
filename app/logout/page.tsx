@@ -1,6 +1,8 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 
-// inside component:
+
 const router = useRouter();
 
 const handleLogout = async () => {
@@ -13,9 +15,9 @@ const handleLogout = async () => {
       throw new Error("Logout failed");
     }
 
-    // after cookies cleared on server
-    router.push("/login");   // change path if your login route is different
-    router.refresh();        // optional
+  
+    router.push("/login");  
+    router.refresh();        
   } catch (err) {
     console.error(err);
     alert("Error logging out");

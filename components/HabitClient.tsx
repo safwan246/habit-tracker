@@ -1,95 +1,193 @@
-// components/HabitClient.tsx
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import cute from "../public/cute.jpg";
+import cute from "../public/cute.jpg"; 
 import Navbar from "@/components/Navbar";
 import HabitCard from "@/components/HabitCard";
+import Sidebar from "./SideBar";
+import HabitModal from "./HabitModel";
 import { IHabit } from "@/model/habit";
+import { CheckInStatus } from "@/model/checkIn";
+
 
 interface HabitClientProps {
   userId: string;
+  initialHabits: any[];
 }
 
-export default function HabitClient({ userId }: HabitClientProps) {
-  const [habits, setHabits] = useState<IHabit[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function HabitClient({ userId, initialHabits }: HabitClientProps) {
+  
+  const [habits, setHabits] = useState<any[]>(initialHabits || []);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [editingHabit, setEditingHabit] = useState<any | null>(null);
 
-  // initial fetch
-  useEffect(() => {
-    const fetchHabits = async () => {
+
+  const handleCheckIn = async (habitId: string, status: CheckInStatus) => {
+    console.log("Sending Check-in:", habitId, status);
+
+    try {
+      const res = await fetch("/api/checkIn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          habitId,
+          status,
+          date: new Date().toISOString().slice(0, 10),
+        }),
+      });
+
+      const text = await res.text();
+
       try {
-        const res = await fetch("/api/habit", { method: "GET" });
-
+        const data = JSON.parse(text);
         if (!res.ok) {
-          console.error("Failed to fetch habits");
-          setLoading(false);
-          return;
+           console.error("SERVER ERROR:", data);
+           throw new Error(data.message || "Failed to update status");
         }
-
-        const data = await res.json();
-        setHabits(data.habits || []);
-      } catch (err) {
-        console.error("Error fetching habits:", err);
-      } finally {
-        setLoading(false);
+        console.log("Check-in success:", data);
+      } catch (jsonError) {
+        console.error("CRITICAL SERVER ERROR (HTML):", text);
+        throw new Error("Server crashed. Check console.");
       }
-    };
-
-    fetchHabits();
-  }, []);
-
-  const handleHabitCreated = (habit: IHabit) => {
-    setHabits((prev) => [...prev, habit]); // 👈 this adds the new card
+      
+    } catch (error: any) {
+      console.error("Error checking in:", error.message);
+      alert(`Error: ${error.message}`);
+    }
   };
 
+ 
+  const handleDeleteHabit = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this habit?")) return;
+
+    try {
+      const res = await fetch(`/api/habit/${id}`, { method: "DELETE" });
+      
+      if (!res.ok) throw new Error("Failed to delete");
+
+  
+      setHabits((prev) => prev.filter((h) => h._id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("Could not delete habit");
+    }
+  };
+
+ 
+  const handleEditHabit = (id: string) => {
+    const habitToEdit = habits.find((h) => h._id === id);
+    if (habitToEdit) {
+      setEditingHabit(habitToEdit);
+    }
+  };
+
+ 
+  const submitEdit = async (formData: Partial<IHabit>) => {
+    if (!editingHabit) return;
+
+    try {
+      const res = await fetch(`/api/habit/${editingHabit._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Failed to update");
+
+    
+      setHabits((prev) => 
+        prev.map((h) => (h._id === editingHabit._id ? { ...h, ...formData } : h))
+      );
+      
+      setEditingHabit(null); 
+    } catch (err) {
+      console.error(err);
+      alert("Could not update habit");
+    }
+  };
+
+
+  const handleHabitCreated = (habit: IHabit) => {
+    setHabits((prev) => [...prev, habit]);
+  };
+
+ 
+  const filteredHabits = selectedCategory === "All" 
+    ? habits 
+    : habits.filter((h) => h.category?.toLowerCase() === selectedCategory.toLowerCase());
+
   return (
-    <div className="min-h-screen bg-stone-50 pb-20">
-      {/* Navbar with callback */}
-      <Navbar userId={userId} onHabitCreated={handleHabitCreated} />
+    <div className="flex min-h-screen bg-stone-50">
+      
+     
+      <Sidebar habits={habits} />
 
-      {/* Hero section */}
-      <div className="w-full mx-auto px-4 md:px-10 pt-8">
-        <div className="relative h-72 md:h-75 w-full rounded-3xl shadow-xl shadow-stone-200 overflow-hidden">
-          <Image
-            src={cute}
-            alt="Nature header"
-            fill
-            className="object-cover"
-            priority
-          />
+     
+      <main className="flex-1 flex flex-col h-screen overflow-y-auto relative z-10">
+        
+        <Navbar userId={userId} onHabitCreated={handleHabitCreated} />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        <div className="pb-20">
+           
+            <div className="w-full mx-auto px-4 md:px-10 pt-8">
+                <div className="relative h-64 md:h-72 w-full rounded-[2rem] shadow-xl shadow-stone-200/50 overflow-hidden">
+                    <Image
+                        src={cute}
+                        alt="Nature header"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                    <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
+                        <span className="text-orange-300 font-bold tracking-widest text-xs uppercase mb-3 bg-black/20 backdrop-blur-sm w-fit px-3 py-1 rounded-full">
+                            Daily Goals
+                        </span>
+                        <h1 className="text-3xl md:text-5xl font-extrabold text-white font-sans drop-shadow-sm">
+                            Welcome to Habit Tracker!
+                        </h1>
+                    </div>
+                </div>
+            </div>
 
-          <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-            <span className="text-orange-300 font-semibold tracking-widest text-sm uppercase mb-2">
-              Daily Goals
-            </span>
-            <h1 className="text-4xl md:text-6xl font-bold text-white font-sans drop-shadow-lg">
-              Welcome to Habit Tracker!
-            </h1>
-          </div>
+          
+            <div className="p-8">
+              
+                {filteredHabits.length === 0 && (
+                    <div className="text-center py-20 bg-white rounded-[2rem] border border-stone-100 mx-4 md:mx-10 shadow-sm">
+                        <p className="text-stone-500 text-lg font-medium mb-2">
+                            No habits found.
+                        </p>
+                        <p className="text-stone-400 text-sm">Create one using the “New Habit” button.</p>
+                    </div>
+                )}
+
+              
+                <div className="flex flex-wrap gap-6 justify-center md:justify-start">
+                    {filteredHabits.map((habit: any) => (
+                        <HabitCard 
+                            key={habit._id} 
+                            habit={habit}
+                            onCheckIn={handleCheckIn} 
+                            onDelete={handleDeleteHabit}
+                            onEdit={handleEditHabit}
+                            todayStatus={habit.todayStatus}
+                        />
+                    ))}
+                </div>
+            </div>
         </div>
-      </div>
+      </main>
 
-      {/* Habit cards */}
-      <div className="p-8 flex flex-wrap gap-6">
-        {loading && (
-          <p className="text-sm text-gray-500">Loading habits...</p>
-        )}
-
-        {!loading && habits.length === 0 && (
-          <p className="text-sm text-gray-500">
-            No habits yet. Create one using the “New Habit” button.
-          </p>
-        )}
-
-        {!loading &&
-          habits.map((habit, index) => (
-            <HabitCard key={index} habit={habit} />
-          ))}
-      </div>
+    
+      <HabitModal 
+        isOpen={!!editingHabit}
+        onClose={() => setEditingHabit(null)}
+        onSubmit={submitEdit}
+        initialData={editingHabit}
+      />
     </div>
   );
 }
