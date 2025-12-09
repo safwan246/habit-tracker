@@ -11,6 +11,7 @@ interface JwtPayload {
 }
 
 export default async function HabitPage() {
+  
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 

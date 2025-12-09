@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
 import { useRouter } from "next/navigation";
 
-
-const router = useRouter();
-
+export default function LogoutBtn(){
+    const router = useRouter();
+    
 const handleLogout = async () => {
   try {
     const res = await fetch("/api/logout", {
@@ -23,3 +23,11 @@ const handleLogout = async () => {
     alert("Error logging out");
   }
 };
+
+    return(
+        <div className="flex flex-col justify-center items-center text-gray-500 font-medium hover:text-orange-600 hover:bg-orange-50 px-4 py-2 rounded-full transition-all duration-200">
+            <button onClick={handleLogout}>Logout</button>
+        </div>
+    )
+
+}

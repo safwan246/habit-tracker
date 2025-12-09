@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { IoMdAdd, IoMdLogOut } from "react-icons/io"; 
 import { IHabit } from "@/model/habit";
 import HabitModal from "./HabitModel"; 
+import LogoutBtn from "./logout";
 
 interface NavbarProps {
   userId: string;
@@ -66,13 +67,14 @@ export default function Navbar({ userId, onHabitCreated }: NavbarProps) {
 
        
         <div className="flex items-center gap-4">
-          <button
+          <LogoutBtn/>
+          {/* <button
             onClick={handleLogout}
             className="flex items-center gap-2 text-gray-500 font-medium hover:text-orange-600 hover:bg-orange-50 px-4 py-2 rounded-full transition-all duration-200"
           >
             <IoMdLogOut size={20} />
             <span className="hidden sm:inline">Logout</span>
-          </button>
+          </button> */}
 
           <button
             onClick={() => setIsModalOpen(true)}
