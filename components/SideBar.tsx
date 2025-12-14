@@ -65,12 +65,7 @@ export default function Sidebar({ habits }: SidebarProps) {
         </div>
 
       
-        <div className="mt-auto pt-4 border-t border-stone-100 bg-white">
-          <div className="p-4 bg-stone-900 rounded-2xl text-white shadow-lg">
-            <p className="text-xs text-stone-400 font-medium mb-1">Total Habits</p>
-            <p className="text-2xl font-bold">{habits.length}</p>
-          </div>
-        </div>
+     
       </aside>
 
    

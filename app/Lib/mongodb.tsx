@@ -13,7 +13,7 @@ export async function connectDB() {
     return cached.conn;
 
   if (!cached.Promise) {
-    cached.Promise = mongoose.connect("mongodb+srv://safuwan:safwan1234@cluster0.lqm6ryb.mongodb.net/habitTracker").then((mongoose) => mongoose);
+    cached.Promise = mongoose.connect(mongo_uri).then((mongoose) => mongoose);
     console.log("db connected");
     
   }

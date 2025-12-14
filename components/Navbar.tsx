@@ -68,13 +68,7 @@ export default function Navbar({ userId, onHabitCreated }: NavbarProps) {
        
         <div className="flex items-center gap-4">
           <LogoutBtn/>
-          {/* <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 text-gray-500 font-medium hover:text-orange-600 hover:bg-orange-50 px-4 py-2 rounded-full transition-all duration-200"
-          >
-            <IoMdLogOut size={20} />
-            <span className="hidden sm:inline">Logout</span>
-          </button> */}
+         
 
           <button
             onClick={() => setIsModalOpen(true)}

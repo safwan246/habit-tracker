@@ -1,9 +1,6 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import cute from "../public/cute.jpg";
 import HabitCard from "../components/HabitCard";
 import { IHabit } from "@/model/habit";
 import { CheckInStatus } from "@/model/checkIn";
@@ -14,7 +11,6 @@ export default function MainBody() {
   const [habits, setHabits] = useState<HabitWithId[]>([]);
   const [loading, setLoading] = useState(true);
 
-  
   const [checkInModalHabit, setCheckInModalHabit] =
     useState<HabitWithId | null>(null);
   const [selectedStatus, setSelectedStatus] =
@@ -48,68 +44,6 @@ export default function MainBody() {
     fetchHabits();
   }, []);
 
-  
-  const handleDeleteHabit = async (id: string) => {
-    const confirmDelete = window.confirm("Delete this habit?");
-    
-    if (!confirmDelete) return;
-
-    try {
-      const res = await fetch(`/api/habit/${id}`, {
-        method: "DELETE",
-      });
-      
-
-      if (!res.ok) {
-        console.error("Failed to delete habit");
-        return;
-      }
-
-      setHabits((prev) => prev.filter((h) => (h as any)._id !== id));
-    } catch (err) {
-      console.error("Error deleting habit:", err);
-    }
-  };
-
- 
-  const handleEditHabit = async (id: string) => {
-    const current = habits.find((h) => (h as any)._id === id);
-    if (!current) return;
-
-    const newTitle = window.prompt("Edit title", current.title);
-    if (newTitle == null || newTitle.trim() === "") return;
-
-    const newDescription = window.prompt(
-      "Edit description",
-      current.description || ""
-    );
-
-    try {
-      const res = await fetch(`/api/habit/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: newTitle,
-          description: newDescription,
-        }),
-      });
-
-      if (!res.ok) {
-        console.error("Failed to update habit");
-        return;
-      }
-
-      const data = await res.json();
-      const updated = data.habit as HabitWithId;
-
-      setHabits((prev) =>
-        prev.map((h) => ((h as any)._id === id ? updated : h))
-      );
-    } catch (err) {
-      console.error("Error updating habit:", err);
-    }
-  };
-
   const handleOpenCheckIn = (id: string) => {
     const habit = habits.find((h) => (h as any)._id === id) || null;
     if (!habit) return;
@@ -117,7 +51,6 @@ export default function MainBody() {
     setSelectedStatus(null);
   };
 
- 
   const handleCheckInSubmit = async () => {
     if (!checkInModalHabit || !selectedStatus) return;
 
@@ -130,7 +63,6 @@ export default function MainBody() {
         body: JSON.stringify({
           habitId,
           status: selectedStatus,
-        
         }),
       });
 
@@ -139,7 +71,6 @@ export default function MainBody() {
         return;
       }
 
-      
       setStatusByHabitId((prev) => ({
         ...prev,
         [habitId]: selectedStatus,
@@ -155,31 +86,11 @@ export default function MainBody() {
   return (
     <div className="min-h-screen bg-stone-50 pb-20">
       
-      <div className="w-full mx-auto px-4 md:px-10 pt-8">
-        <div className="relative h-72 md:h-75 w-full  shadow-xl overflow-hidden">
-          <Image
-            src={cute}
-            alt="Nature header"
-            fill
-            className="object-cover"
-            priority
-          />
+      <div className="p-8">
+        <h1 className="text-3xl font-bold text-neutral-800 mb-4">
+          My Habits
+        </h1>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-
-          <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-            <span className="text-orange-300 font-semibold tracking-widest text-sm uppercase mb-2">
-              Daily Goals
-            </span>
-            <h1 className="text-4xl md:text-6xl font-bold text-white font-sans drop-shadow-lg">
-              Welcome to Habit Tracker!
-            </h1>
-          </div>
-        </div>
-      </div>
-
-      
-      <div className="p-8 flex flex-wrap gap-6">
         {loading && (
           <p className="text-sm text-gray-500">Loading habits...</p>
         )}
@@ -190,24 +101,25 @@ export default function MainBody() {
           </p>
         )}
 
-        {!loading &&
-          habits.map((habit) => {
-            const id = (habit as any)._id as string | undefined;
-            const status = id ? statusByHabitId[id] : undefined;
-            return (
-              <HabitCard
-                key={String(id ?? habit.title)}
-                habit={habit}
-                onEdit={handleEditHabit}
-                onDelete={handleDeleteHabit}
-                onCheckIn={handleOpenCheckIn}
-                todayStatus={status ?? null}
-              />
-            );
-          })}
+        <div className="flex flex-wrap gap-6 mt-6">
+          {!loading &&
+            habits.map((habit) => {
+              const id = (habit as any)._id as string | undefined;
+              const status = id ? statusByHabitId[id] : undefined;
+
+              return (
+                <HabitCard
+                  key={String(id ?? habit.title)}
+                  habit={habit}
+                  onCheckIn={handleOpenCheckIn}
+                  todayStatus={status ?? null}
+                />
+              );
+            })}
+        </div>
       </div>
 
-      
+      {/* Check-in Modal */}
       {checkInModalHabit && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-xl">
@@ -226,16 +138,11 @@ export default function MainBody() {
               </button>
             </div>
 
-            
-
-            <p className="font-semibold mb-1">
-              {checkInModalHabit.title}
-            </p>
+            <p className="font-semibold mb-1">{checkInModalHabit.title}</p>
             <p className="text-sm text-neutral-600 mb-4">
               How did you do with this habit today?
             </p>
 
-            
             <div className="grid grid-cols-3 gap-3 mb-6">
               {(["SUCCESS", "FAILED", "SKIP"] as CheckInStatus[]).map(
                 (status) => {
