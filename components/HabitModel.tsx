@@ -47,7 +47,7 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
       description: (form.elements.namedItem("description") as HTMLTextAreaElement).value,
       category: (form.elements.namedItem("category") as HTMLSelectElement).value as HabitCategory,
       frequency: (form.elements.namedItem("frequency") as HTMLSelectElement).value as HabitFrequency,
-      trigger: (form.elements.namedItem("trigger") as HTMLInputElement).value,
+      
     };
 
     onSubmit(formData);
@@ -59,9 +59,9 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
         
     
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-stone-800">
+          <h5 className="text-xl font-md text-stone-800">
             {initialData ? "Edit Habit" : "Create New Habit"}
-          </h2>
+          </h5>
           <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-full bg-stone-100 text-stone-500 hover:bg-stone-200 transition-colors"
@@ -74,28 +74,28 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
           
      
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-stone-500 uppercase tracking-wider ml-1">
+            <label className="text-sm text-stone-500 ">
               Title
             </label>
             <input
               name="title"
               required
               defaultValue={initialData?.title || ""}
-              className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800 outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all"
+              className="w-full border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800 "
               placeholder="habit"
             />
           </div>
 
         
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-stone-500 uppercase tracking-wider ml-1">
+            <label className="text-sm font-bold text-stone-500">
               Description
             </label>
             <textarea
               name="description"
               rows={2}
               defaultValue={initialData?.description || ""}
-              className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800 outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all resize-none"
+              className="w-full border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800"
               placeholder="Details about your habit..."
             />
           </div>
@@ -103,7 +103,7 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
        
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-stone-500 uppercase tracking-wider ml-1">
+              <label className="text-xs font-bold text-stone-500">
                 Category
               </label>
               <div className="relative">
@@ -111,9 +111,9 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
                   name="category"
                   required
                   defaultValue={initialData?.category || ""}
-                  className="w-full appearance-none rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800 outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all"
+                  className="w-full appearance-none border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800 "
                 >
-                  <option value="" disabled>Select...</option>
+                  <option value="" disabled>Select</option>
                   {categories.map((c) => (
                     <option key={c.value} value={c.value}>{c.label}</option>
                   ))}
@@ -126,7 +126,7 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-stone-500 uppercase tracking-wider ml-1">
+              <label className="text-sm font-bold text-stone-500 ">
                 Frequency
               </label>
               <div className="relative">
@@ -134,9 +134,9 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
                   name="frequency"
                   required
                   defaultValue={initialData?.frequency || ""}
-                  className="w-full appearance-none rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800 outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all"
+                  className="w-full appearance-none border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800 "
                 >
-                  <option value="" disabled>Select...</option>
+                  <option value="" disabled>Select</option>
                   {frequencies.map((f) => (
                     <option key={f.value} value={f.value}>{f.label}</option>
                   ))}
@@ -147,20 +147,7 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
               </div>
             </div>
           </div>
-
-          <div className="space-y-1.5">
-             <label className="text-xs font-bold text-stone-500 uppercase tracking-wider ml-1">
-              Trigger 
-            </label>
-            <input
-              name="trigger"
-              defaultValue={initialData?.trigger || ""}
-              className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800 outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all"
-              placeholder="Ex: After brushing teeth"
-            />
-          </div>
-          
-         
+      
           <div className="flex justify-end gap-3 pt-4">
             <button
               type="button"
@@ -172,7 +159,7 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
 
             <button
               type="submit"
-              className="px-8 py-2.5 rounded-xl text-sm font-bold bg-orange-500 "
+              className="px-8 py-2.5 text-sm font-bold bg-orange-400 "
             >
               {initialData ? "Save Changes" : "Create Habit"}
             </button>

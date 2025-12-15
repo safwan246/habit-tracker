@@ -119,7 +119,6 @@ export default function MainBody() {
         </div>
       </div>
 
-      {/* Check-in Modal */}
       {checkInModalHabit && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-xl">

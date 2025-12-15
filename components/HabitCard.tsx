@@ -48,7 +48,7 @@ const HabitCard = ({
   };
 
   const renderStatusPill = (statusToRender: CheckInStatus) => {
-    const base = "px-4 py-2 rounded-xl text-sm font-semibold shadow-sm animate-in fade-in zoom-in duration-300";
+    const base = "px-4 py-2  text-sm font-semibold shadow-sm ";
 
     if (statusToRender === "SUCCESS")
       return <span className={`${base} bg-emerald-500 text-white`}>Success</span>;
@@ -63,8 +63,8 @@ const HabitCard = ({
       
     
       <div className="flex items-center justify-between">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600">
-          <span className="text-xs font-semibold tracking-wide">{habit.category}</span>
+        <div className="inline-flex items-center gap-1.5 ">
+          <span className="text-sm font-md text-green-400">{habit.category}</span>
         </div>
         <div className="flex items-center gap-2 text-xs">
           <button disabled={!id} onClick={() => id && onEdit?.(id)} className="text-blue-600 hover:underline disabled:opacity-40">Edit</button>
@@ -75,7 +75,7 @@ const HabitCard = ({
       
       <div>
         <h3 className="text-lg font-bold text-gray-900">{habit.title}</h3>
-        <p className="text-sm text-gray-500 mt-1">{habit.description || "No description"}</p>
+        <p className="text-sm text-gray-500 mt-1">{habit.description}</p>
       </div>
 
     
@@ -90,7 +90,7 @@ const HabitCard = ({
               <button
                 disabled={!id}
                 onClick={() => setShowOptions(true)}
-                className="bg-[#EE7F5E] hover:bg-[#d97253] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors shadow-sm disabled:opacity-40"
+                className="bg-orange-400 hover:bg-orange-500 text-white text-sm font-semibold px-5 py-2.5 "
               >
                 Check In
               </button>
@@ -100,13 +100,13 @@ const HabitCard = ({
               <div className="flex items-center gap-2 animate-in slide-in-from-right-4 duration-300">
                 <button
                   onClick={() => handleStatusSelect("SUCCESS")}
-                  className="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-2 rounded-lg shadow-sm transition-transform active:scale-95"
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-2 "
                 >
                   Success
                 </button>
                 <button
                   onClick={() => handleStatusSelect("FAILED")}
-                  className="bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-3 py-2 rounded-lg shadow-sm transition-transform active:scale-95"
+                  className="bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-3 py-2 "
                 >
                   Failed
                 </button>
