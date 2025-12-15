@@ -2,11 +2,8 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import cute from "../public/cute.jpg"; 
 import Navbar from "@/components/Navbar";
 import HabitCard from "@/components/HabitCard";
-import Sidebar from "./SideBar";
 import HabitModal from "./HabitModel";
 import { IHabit } from "@/model/habit";
 import { CheckInStatus } from "@/model/checkIn";
@@ -122,7 +119,7 @@ export default function HabitClient({ userId, initialHabits }: HabitClientProps)
     <div className="flex min-h-screen bg-stone-50">
       
      
-      <Sidebar habits={habits} />
+    
 
      
       <main className="flex-1 flex flex-col h-screen overflow-y-auto relative z-10">
@@ -132,20 +129,12 @@ export default function HabitClient({ userId, initialHabits }: HabitClientProps)
         <div className="pb-20">
            
             <div className="w-full mx-auto px-4 md:px-10 pt-8">
-                <div className="relative h-64 md:h-72 w-full rounded-[2rem] shadow-xl shadow-stone-200/50 overflow-hidden">
-                    <Image
-                        src={cute}
-                        alt="Nature header"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                <div className="relative h-55 md:h-72 w-full bg-orange-50 shadow-gray-500">
+                  
+                    <div className="absolute inset-0 "></div>
                     <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-                        <span className="text-orange-300 font-bold tracking-widest text-xs uppercase mb-3 bg-black/20 backdrop-blur-sm w-fit px-3 py-1 rounded-full">
-                            Daily Goals
-                        </span>
-                        <h1 className="text-3xl md:text-5xl font-extrabold text-white font-sans drop-shadow-sm">
+                       
+                        <h1 className="text-3xl md:text-5xl font-extrabold text-black font-sans drop-shadow-sm">
                             Welcome to Habit Tracker!
                         </h1>
                     </div>
@@ -154,16 +143,6 @@ export default function HabitClient({ userId, initialHabits }: HabitClientProps)
 
           
             <div className="p-8">
-              
-                {filteredHabits.length === 0 && (
-                    <div className="text-center py-20 bg-white rounded-[2rem] border border-stone-100 mx-4 md:mx-10 shadow-sm">
-                        <p className="text-stone-500 text-lg font-medium mb-2">
-                            No habits found.
-                        </p>
-                        <p className="text-stone-400 text-sm">Create one using the “New Habit” button.</p>
-                    </div>
-                )}
-
               
                 <div className="flex flex-wrap gap-6 justify-center md:justify-start">
                     {filteredHabits.map((habit: any) => (

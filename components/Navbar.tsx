@@ -62,7 +62,7 @@ export default function Navbar({ userId, onHabitCreated }: NavbarProps) {
         
         
         <div className="flex items-center gap-2">
-           <span className="md:hidden font-extrabold text-xl text-gray-800">Habit Tracker</span>
+           <span className=" font-extrabold text-xl text-gray-800">Habit Tracker</span>
         </div>
 
        
@@ -72,7 +72,7 @@ export default function Navbar({ userId, onHabitCreated }: NavbarProps) {
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="group bg-orange-500 text-white px-6 py-2.5 rounded-full font-medium shadow-lg transform transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-600 flex items-center gap-2"
+            className=" bg-orange-400 text-white px-6 py-2.5 hover:bg-orange-600 flex items-center gap-2"
           >
             <IoMdAdd size={20} />
             <span>New Habit</span>
