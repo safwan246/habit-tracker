@@ -53,7 +53,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-orange-100">
-      <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-2xl border border-orange-200">
+      <div className="w-full max-w-md bg-white p-8 shadow-lg border border-orange-200">
         <h1 className="mb-6 text-2xl font-bold text-orange-500">
           Login
         </h1>
