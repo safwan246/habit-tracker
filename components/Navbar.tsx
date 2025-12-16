@@ -58,7 +58,7 @@ export default function Navbar({ userId, onHabitCreated }: NavbarProps) {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-orange-100 flex justify-between items-center px-6 py-4 md:px-12">
+      <nav className="sticky top-0 z-40 w-full  border-b border-orange-400 flex justify-between items-center px-6 py-4 md:px-12">
         
         
         <div className="flex items-center gap-2">
@@ -66,13 +66,13 @@ export default function Navbar({ userId, onHabitCreated }: NavbarProps) {
         </div>
 
        
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 ">
           <LogoutBtn/>
          
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className=" bg-orange-400 text-white px-6 py-2.5 hover:bg-orange-600 flex items-center gap-2"
+            className=" bg-orange-400 text-white px-6 py-2.5 hover:bg-orange-600 flex items-center gap-2 hover:cursor-pointer"
           >
             <IoMdAdd size={20} />
             <span>New Habit</span>

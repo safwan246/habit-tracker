@@ -67,8 +67,8 @@ const HabitCard = ({
           <span className="text-sm font-md text-green-400">{habit.category}</span>
         </div>
         <div className="flex items-center gap-2 text-xs">
-          <button disabled={!id} onClick={() => id && onEdit?.(id)} className="text-blue-600 hover:underline disabled:opacity-40">Edit</button>
-          <button disabled={!id} onClick={() => id && onDelete?.(id)} className="text-red-500 hover:underline disabled:opacity-40">Delete</button>
+          <button disabled={!id} onClick={() => id && onEdit?.(id)} className="text-blue-600 hover:underline disabled:opacity-40 hover:cursor-pointer">Edit</button>
+          <button disabled={!id} onClick={() => id && onDelete?.(id)} className="text-red-500 hover:underline disabled:opacity-40 hover:cursor-pointer">Delete</button>
         </div>
       </div>
 
@@ -90,7 +90,7 @@ const HabitCard = ({
               <button
                 disabled={!id}
                 onClick={() => setShowOptions(true)}
-                className="bg-orange-400 hover:bg-orange-500 text-white text-sm font-semibold px-5 py-2.5 "
+                className="bg-orange-400 hover:bg-orange-500 text-white text-sm font-semibold px-5 py-2.5 hover:cursor-pointer"
               >
                 Check In
               </button>

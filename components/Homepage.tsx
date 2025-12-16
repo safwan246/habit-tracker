@@ -11,7 +11,7 @@ export default function Homepage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-orange-100 px-4">
       
-      <div className="w-full max-w-3xl bg-white/80  rounded-[32px]  px-8 py-10 md:px-16 md:py-14 text-center border border-orange-100">
+      <div className="w-full max-w-3xl bg-white/80   px-8 py-10 md:px-16 md:py-14 text-center border border-orange-100">
         
        
         <div className="flex items-center justify-center gap-3 mb-4">
@@ -38,7 +38,7 @@ export default function Homepage() {
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button onClick={handleRender} className="w-full sm:w-auto px-8 py-3 rounded-full text-sm md:text-base font-semibold text-white bg-orange-600 hover:bg-orange-700 ">
+          <button onClick={handleRender} className="w-full sm:w-auto px-8 py-3 rounded-full text-sm md:text-base font-semibold text-white bg-orange-600 hover:bg-orange-700 hover:cursor-pointer">
             Get Started
            
           </button>

@@ -128,11 +128,11 @@ export default function HabitClient({ userId, initialHabits }: HabitClientProps)
 
         <div className="pb-20">
            
-            <div className="w-full mx-auto px-4 md:px-10 pt-8">
+            <div className="w-full mx-auto px-4 md:px-10 pt-8 ">
                 <div className="relative h-55 md:h-72 w-full bg-orange-50 shadow-gray-500">
                   
                     <div className="absolute inset-0 "></div>
-                    <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
+                    <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 ">
                        
                         <h1 className="text-3xl md:text-5xl font-extrabold text-black font-sans drop-shadow-sm">
                             Welcome to Habit Tracker!
