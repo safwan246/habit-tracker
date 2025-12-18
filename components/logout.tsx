@@ -26,7 +26,7 @@ const handleLogout = async () => {
 
     return(
         <div className="flex flex-col justify-center items-center text-gray-500 font-medium hover:bg-orange-50 px-4 py-2 hover:cursor-pointer">
-            <button className="hover:cursor-pointer" onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout} className="hover:cursor-pointer">Lgiogout</button>
         </div>
     )
 
