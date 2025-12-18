@@ -152,14 +152,14 @@ export default function HabitModal({ isOpen, onClose, onSubmit, initialData }: H
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 rounded-xl text-sm font-bold text-stone-500 hover:bg-stone-100 hover:text-stone-700 transition-colors"
+              className="px-6 py-2.5 rounded-xl text-sm font-bold text-stone-500 hover:bg-stone-100 hover:text-stone-700 transition-colors hover:cursor-pointer"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="px-8 py-2.5 text-sm font-bold bg-orange-400 "
+              className="px-8 py-2.5 text-sm font-bold bg-orange-400 hover:cursor-pointer"
             >
               {initialData ? "Save Changes" : "Create Habit"}
             </button>
