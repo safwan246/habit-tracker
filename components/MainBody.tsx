@@ -111,8 +111,9 @@ export default function MainBody() {
                 <HabitCard
                   key={String(id ?? habit.title)}
                   habit={habit}
-                  onCheckIn={handleOpenCheckIn}
-                  todayStatus={status ?? null}
+                  onCycleStatus={() => {}}
+                  weekStatuses={{}}
+                  weekDates={[]}
                 />
               );
             })}

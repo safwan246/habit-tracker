@@ -41,26 +41,22 @@ export default async function HabitPage() {
   const habits = JSON.parse(JSON.stringify(rawHabits));
 
 
-  const todayStr = new Date().toISOString().slice(0, 10);
-  
-  const rawCheckIns = await CheckInModel.find({
-    userId: userId,
-    date: todayStr,
-  }).lean();
-  
-  const todayCheckIns = JSON.parse(JSON.stringify(rawCheckIns));
-
+  const rawCheckIns = await CheckInModel.find({ userId: userId }).lean();
+  const allCheckIns = JSON.parse(JSON.stringify(rawCheckIns));
   
   const serializedHabits = habits.map((habit: any) => {
-   
-    const checkIn = todayCheckIns.find(
+    const habitCheckIns = allCheckIns.filter(
       (c: any) => String(c.habitId) === String(habit._id) 
     );
 
+    const weekStatusMap: Record<string, string> = {};
+    habitCheckIns.forEach((c: any) => {
+        weekStatusMap[c.date] = c.status;
+    });
+
     return {
       ...habit,
-      
-      todayStatus: checkIn ? checkIn.status : null,
+      weekStatuses: weekStatusMap,
     };
   });
 

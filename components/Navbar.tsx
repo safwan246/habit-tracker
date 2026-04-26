@@ -58,25 +58,43 @@ export default function Navbar({ userId, onHabitCreated }: NavbarProps) {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 w-full  border-b border-orange-400 flex justify-between items-center px-6 py-4 md:px-12">
-        
+      <nav className="sticky top-0 z-40 w-full bg-black md:bg-white border-b-2 border-black flex justify-between items-center px-4 md:px-12 py-3 md:py-4 shadow-sm">
         
         <div className="flex items-center gap-2">
-           <span className=" font-extrabold text-xl text-gray-800">Habit Tracker</span>
+           <span className="font-black text-lg md:text-2xl text-white md:text-black italic tracking-tighter uppercase whitespace-nowrap">
+            Habit <span className="text-orange-500">Hunter</span>
+           </span>
         </div>
 
-       
-        <div className="flex items-center gap-4 ">
-          <LogoutBtn/>
-         
+        <div className="flex items-center gap-3 md:gap-6">
+          {/* Desktop Only Buttons */}
+          <div className="hidden md:flex items-center gap-6">
+            <LogoutBtn/>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="group relative bg-[#FF5C00] text-white px-7 py-2.5 border-2 border-black font-black uppercase tracking-widest text-xs hover:bg-[#FF8A00] transition-all cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
+            >
+              <div className="flex items-center gap-2">
+                <IoMdAdd size={16} className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" />
+                <span>New Habit</span>
+              </div>
+            </button>
+          </div>
 
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className=" bg-orange-400 text-white px-6 py-2.5 hover:bg-orange-600 flex items-center gap-2 hover:cursor-pointer"
-          >
-            <IoMdAdd size={20} />
-            <span>New Habit</span>
-          </button>
+          {/* Mobile Only Hamburger/Add Button */}
+          <div className="md:hidden flex items-center gap-4">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="text-white hover:text-orange-500 transition-colors"
+            >
+              <IoMdAdd size={28} />
+            </button>
+            <div className="flex flex-col gap-1 w-6 cursor-pointer">
+              <div className="h-0.5 w-full bg-white"></div>
+              <div className="h-0.5 w-full bg-white"></div>
+              <div className="h-0.5 w-full bg-white"></div>
+            </div>
+          </div>
         </div>
       </nav>
 

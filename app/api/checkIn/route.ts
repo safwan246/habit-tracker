@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/app/Lib/mongodb";
 import CheckIn, { CheckInStatus } from "@/model/checkIn";
 import { verifyToken } from "@/app/Lib/JWT/verifyToken";
-
+import { revalidatePath } from "next/cache";
 
 export async function GET(req: NextRequest) {
   try {
@@ -14,7 +14,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-  
     const today = new Date().toISOString().slice(0, 10);
 
     
@@ -67,6 +66,7 @@ export async function POST(req: NextRequest) {
       { new: true, upsert: true }
     );
 
+    revalidatePath("/habit");
     return NextResponse.json({ checkIn }, { status: 200 });
   } catch (error) {
     console.error("POST /api/checkin error:", error);
@@ -74,5 +74,32 @@ export async function POST(req: NextRequest) {
       { message: "Internal server error" },
       { status: 500 }
     );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    await connectDB();
+    const decoded = verifyToken(req);
+    if (!decoded) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const { habitId, date } = await req.json();
+    if (!habitId || !date) {
+      return NextResponse.json({ message: "habitId and date required" }, { status: 400 });
+    }
+
+    await CheckIn.findOneAndDelete({
+      userId: decoded.user_id,
+      habitId,
+      date
+    });
+
+    revalidatePath("/habit");
+    return NextResponse.json({ message: "Check-in deleted" }, { status: 200 });
+  } catch (error) {
+    console.error("DELETE /api/checkin error:", error);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
