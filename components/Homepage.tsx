@@ -1,50 +1,55 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Homepage() {
-  const router=useRouter();
-  
-  const handleRender=()=>{
-    router.push("/signup");
-  }
+  const router = useRouter();
+
   return (
-    <main className="min-h-screen flex items-center justify-center bg-orange-100 px-4">
-      
-      <div className="w-full max-w-3xl bg-white/80   px-8 py-10 md:px-16 md:py-14 text-center border border-orange-100">
-        
-       
-        <div className="flex items-center justify-center gap-3 mb-4">
-          
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900">
-            Build Good Habits.
-            <span className="block text-orange-600">
-              Become Better Every Day.
-            </span>
-          </h1>
-        </div>
+    <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="w-full max-w-lg text-center">
 
-    
-        <div className="mt-4 space-y-1 text-sm md:text-base text-gray-600">
-          <p className="text-xl">Small daily actions make big changes.</p>
-          <p className="text-xl">Consistency beats motivation.</p>
-          <p className="text-xl font-medium">Track → Improve → Grow.</p>
-        </div>
+        {/* Brand */}
+        <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tight text-black mb-3">
+          Habit <span className="text-orange-500">Hunter</span>
+        </h1>
 
-   
-        <p className="mt-6 font-extrabold md:text-base text-gray-600 text-5xl">
-          Create, track, and maintain healthy habits
-          
+        <p className="text-gray-500 text-base md:text-lg mb-10">
+          Build habits that stick. Track your progress, one day at a time.
         </p>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button onClick={handleRender} className="w-full sm:w-auto px-8 py-3 rounded-full text-sm md:text-base font-semibold text-white bg-orange-600 hover:bg-orange-700 hover:cursor-pointer">
-            Get Started
-           
-          </button>
-
-        
+        {/* Feature pills */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {["Track Daily", "Stay Consistent", "Build Streaks"].map((tag) => (
+            <span
+              key={tag}
+              className="px-4 py-1.5 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-600 shadow-sm"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
+
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button
+            onClick={() => router.push("/signup")}
+            className="w-full sm:w-auto px-8 py-3 rounded-lg bg-orange-500 text-white text-sm font-semibold hover:bg-orange-600 active:scale-95 transition-all cursor-pointer"
+          >
+            Get Started
+          </button>
+          <Link
+            href="/login"
+            className="w-full sm:w-auto px-8 py-3 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 active:scale-95 transition-all text-center"
+          >
+            Sign In
+          </Link>
+        </div>
+
+        <p className="mt-10 text-xs text-gray-400">
+          Free to use. No credit card required.
+        </p>
       </div>
     </main>
   );
